@@ -1,4 +1,9 @@
+import random
+
 class Rubik:
+    # number of moves used in scramble
+    MAX_RAND = 10
+
     # total amount of squares in face
     faceSize = 4
 
@@ -13,6 +18,9 @@ class Rubik:
 
     # all the sizes
     sizes = ['Up', 'Front', 'Right', 'Back', 'Left', 'Down']
+
+    # list of moves possible
+    moveName = ['U','Ui','F','Fi','R','Ri','B','Bi','L','Li','D','Di']
 
     # Stores how the pieces will move with every possible move
     moves = {
@@ -51,10 +59,18 @@ class Rubik:
         self.createCube()
 
     def createCube(self):
+        """
+            Generate solved cube
+
+        """
         for i in range(self.size):
             self.cube.append( self.colors[int(i/self.faceSize)])
     
     def printCube(self):
+        """
+            Print cube in console
+
+        """
         for i,sizeName in enumerate(self.sizes):
             print(sizeName)
             for j in range(self.faceSize):
@@ -64,7 +80,29 @@ class Rubik:
             print()
 
     def applyMove(self, move):
+        """
+            Apply a move to cube
+            
+            Parameters:
+                    move: Move using F(Front), U(Up), R(Right), B(Back), L(Left), D(Down) notation.
+                    i after move indicates counter clockwise move
+
+        """
         newCube = []
         for i in range(self.size):
             newCube.append(self.cube[self.moves[move][i]])
         self.cube = newCube
+    
+    def generateRandomScramble(self):
+        """
+            Generate a random scramble with MAX_RAND moves
+    
+            Returns:
+                    List of moves
+        """
+        scramble = []
+        for i in range(self.MAX_RAND):
+            randMove = random.choice(self.moveName)
+            self.applyMove(randMove)
+            scramble.append(randMove)
+        return scramble
