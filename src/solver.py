@@ -1,6 +1,7 @@
 import rubik
 import heuristic
 from Node import Node
+from time import time
 
 def path(parent, start, end):
     """
@@ -32,9 +33,12 @@ def bfs(start, end):
     # store the nodes visited and the move appllied to get to node
     parent = {start: None}
 
+    start_time = time()
     while queue:
         node = queue.pop(0)
         if node == end:
+            total_time = time() - start_time
+            print('BFS total time:', total_time)
             return path(parent, start, node)
         # apply every move(U,U',F,F',R,R') to current node of the cube to get the neighbors
         for move in rubik.moveName:
@@ -43,6 +47,8 @@ def bfs(start, end):
             if temp not in parent:
                 parent[temp] = move
                 queue.append(temp)
+    total_time = time() - start_time
+    print('BFS total time:', total_time)
     # No solution found
     return None
 
@@ -71,6 +77,7 @@ def a_search(start, end):
     open_list = [start_node]
     closed_list = []
 
+    start_time = time()
     # Loop until you find the end
     while len(open_list) > 0:
 
@@ -88,6 +95,8 @@ def a_search(start, end):
 
         # Found the goal
         if current_node == end_node:
+            total_time = time() - start_time
+            print('BFS total time:', total_time)
             path = []
             current = current_node
             while current is not None:
@@ -131,3 +140,5 @@ def a_search(start, end):
 
             # Add the child to the open list
             open_list.append(child)
+    total_time = time() - start_time
+    print('BFS total time:', total_time)

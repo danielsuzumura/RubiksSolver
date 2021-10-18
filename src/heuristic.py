@@ -1,5 +1,6 @@
 import rubik
 import json
+from time import time
 
 START = rubik.createCube()
 distances = {}
@@ -17,6 +18,7 @@ def generate_positions():
     global distances
     distances = {str(START): 0}
 
+    start_time = time()
     dist = 0
     while queue and dist <= 6:
         dist += 1
@@ -28,6 +30,8 @@ def generate_positions():
             if str(temp) not in distances:
                 distances[str(temp)] = dist+1
                 queue.append((temp, dist+1))
+    total_time = time() - start_time
+    print('Heuristic generation time:', total_time)
 
     with open('database.json', 'w') as f:
         f.write(json.dumps(distances))
