@@ -31,10 +31,11 @@ mapping = {
 # all the sizes
 sizes = ['Up', 'Front', 'Right', 'Back', 'Left', 'Down']
 
-# list of moves possible
+# list of possible moves
 moveName = ['U','Ui','F','Fi','R','Ri']
 
 # Stores how the pieces will move with every possible move
+# Permutating the colors in the list
 moves = {
 # Rotate Up layer clockwise
 'U': [2,0,3,1,8,9,6,7,12,13,10,11,16,17,14,15,4,5,18,19,20,21,22,23],
@@ -55,6 +56,9 @@ moves = {
 def createCube():
     """
         Generate solved cube
+
+        Returns:
+                Tuple: Solved cube
     """
     cube = []
     for i in range(size):
@@ -108,10 +112,9 @@ def applyMove(cube, move):
         Apply a move to cube
         
         Parameters:
-                move: Move using F(Front), U(Up), R(Right), B(Back), L(Left), D(Down) notation.
-                i after move indicates counter clockwise move
+                move: Move using F(Front), Fi(Front clockwise), U(Up), Ui(Up clockwise), R(Right), Ri(Right clockwise) notation.
         Returns:
-                Cube after move
+                Tuple: Cube after move
     """
     newCube = []
     for i in range(size):
@@ -123,7 +126,7 @@ def generateRandomScramble(maximum=None):
         Generate a random scramble with MAX_RAND moves
 
         Returns:
-                List of moves
+                List: moves randomly generated
     """
     scramble = []
     maximum = MAX_RAND if maximum is None else maximum
@@ -143,15 +146,13 @@ def applyScramble(cube, scramble):
         cube = applyMove(cube, move)
     return tuple(cube)
 
-def isSolved(cube):
-    for i,sizeName in enumerate(sizes):
-        color = cube[i*faceSize]
-        for j in range(faceSize):
-            if cube[j + i*faceSize] != color:
-                return False
-    return True
-
 def inverseMove(move):
+    """
+        Generate move to reverse move as parameter
+
+        Returns:
+                String: Inverse move
+    """
     if 'i' in move:
         return move[0]
     else:

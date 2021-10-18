@@ -4,6 +4,11 @@ import time
 from sys import argv, stderr
 
 def printPath(path):
+    """
+        Print path
+        Parameters:
+                path: List with moves to reach solution
+    """
     if path != None:
         print("Number of moves:",len(path))
         print("Path:")
@@ -14,6 +19,12 @@ def printPath(path):
         print("No solution found")
 
 def showSolution(cube, solution, color=False):
+    """
+        Display animation solving cube
+        Parameters:
+                cube: Tuple representing scrambled cube
+                solution: List of moves to solve cube
+    """
     current = cube
     rubik.print3DCube(current, color)
 
@@ -24,6 +35,11 @@ def showSolution(cube, solution, color=False):
         rubik.print3DCube(current, color)
 
 def solve(cube, method='a_star'):
+    """
+        Solve cube using BFS or A* and print moves to reach solution.
+        Parameters:
+                cube: Tuple representing scrambled cube
+    """
     if method == 'bfs':
         path = solver.bfs(cube, rubik.createCube())
     else:
@@ -35,6 +51,12 @@ def solve(cube, method='a_star'):
 
 
 def init(maxScrambles=None):
+    """
+        Generate scrambled cube
+
+        Returns:
+                Scrambled cube
+    """
     # create solved cube
     cube = rubik.createCube()
     # generate scramble

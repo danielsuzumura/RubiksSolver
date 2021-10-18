@@ -59,9 +59,17 @@ def h(cube):
         Heuristic function based on Patter Database.
         Use database.json file to get distance
         from current combination to solved state
+
+        Returns:
+                Integer: Number of moves from state cube to solution
     """
-    dist = heuristic.get_distances()[str(cube)]
-    return dist
+    try:
+        dist = heuristic.get_distances()[str(cube)]
+        return dist
+    except:
+        # considering the maximum number of steps is 14
+        # source: https://en.wikipedia.org/wiki/Pocket_Cube
+        return 15
 
 def a_search(start, end):
     """
@@ -75,8 +83,7 @@ def a_search(start, end):
 
     # Create start and end node
     start_node = Node(None, start)
-    start_node.g = start_node.f = 0
-    start_node.h = h(start)
+    start_node.g = start_node.h = start_node.f = 0
     end_node = Node(None, end)
     end_node.g = end_node.h = end_node.f = 0
 
@@ -133,7 +140,6 @@ def a_search(start, end):
                 if child == closed_child:
                     continue
 
-            # Create the f, g, and h values
             # distance to reach node
             child.g = current_node.g + 1
             # heuristic (how many moves to reach solution)
