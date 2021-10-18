@@ -1,3 +1,8 @@
+"""
+    Generating heuristic table for A* algorithm using Patter Database.
+    Based on https://www.cs.princeton.edu/courses/archive/fall06/cos402/papers/korfrubik.pdf
+"""
+
 import rubik
 import json
 from time import time
@@ -7,21 +12,19 @@ distances = {}
 
 def generate_positions():
     """
-        Generate minimun solution for given configuration of cube
-        Parameters:
-                start: Cube to be solved
-                end: Solved cube
+        Generate json file with every possible combination and gives distance from
+        combination to solved
     """
     queue = []
     queue.append((START, 0))
-    # store the nodes visited and the move appllied to get to node
+    # store the distance from solved to every possible combination
     global distances
     distances = {str(START): 0}
 
     start_time = time()
-    dist = 0
-    while queue and dist <= 6:
-        dist += 1
+
+    # using BFS to calculate distance to every combination
+    while queue:
         node, dist = queue.pop(0)
         # apply every move(U,U',F,F',R,R') to current node of the cube to get the neighbors
         for move in rubik.moveName:
@@ -33,10 +36,15 @@ def generate_positions():
     total_time = time() - start_time
     print('Heuristic generation time:', total_time)
 
+    # store table in database.json file
     with open('database.json', 'w') as f:
         f.write(json.dumps(distances))
 
 def get_distances():
+    """
+        Use database.json file to get distance
+        from current combination to solved state
+    """
     global distances
     if distances == {}:
         try:
