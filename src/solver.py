@@ -83,7 +83,9 @@ def a_search(start, end):
 
     # Create start and end node
     start_node = Node(None, start)
-    start_node.g = start_node.h = start_node.f = 0
+    start_node.g = 0
+    start_node.h = h(start)
+    start_node.f = start_node.g + start_node.h
     end_node = Node(None, end)
     end_node.g = end_node.h = end_node.f = 0
 
