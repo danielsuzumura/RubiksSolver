@@ -118,7 +118,7 @@ def applyMove(cube, move):
         newCube.append(cube[moves[move][i]])
     return tuple(newCube)
 
-def generateRandomScramble():
+def generateRandomScramble(maximum=None):
     """
         Generate a random scramble with MAX_RAND moves
 
@@ -126,7 +126,8 @@ def generateRandomScramble():
                 List of moves
     """
     scramble = []
-    for i in range(MAX_RAND):
+    maximum = MAX_RAND if maximum is None else maximum
+    for i in range(maximum):
         randMove = random.choice(moveName)
         scramble.append(randMove)
     return scramble
