@@ -1,7 +1,7 @@
 import random
 
 # number of moves used in scramble
-MAX_RAND = 9
+MAX_RAND = 4
 
 # total amount of squares in face
 faceSize = 4
