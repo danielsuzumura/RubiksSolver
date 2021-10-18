@@ -22,6 +22,7 @@ def generate_positions():
     distances = {str(START): 0}
 
     start_time = time()
+
     # using BFS to calculate distance to every combination
     while queue:
         node, dist = queue.pop(0)
