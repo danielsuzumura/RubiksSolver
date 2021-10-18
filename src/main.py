@@ -11,16 +11,22 @@ def printPath(path):
     else:
         print("No solution found")
 
-# create solved cube
-cube = rubik.createCube()
-# generate scramble
-scramble = rubik.generateRandomScramble()
-print("Scramble:",scramble)
-# apply scramble
-cube = rubik.applyScramble(cube, scramble)
-# rubik.printCube(cube)
+def solve(cube):
+    # path = solver.bfs(cube, rubik.createCube())
+    # printPath(path)
+    path = solver.a_search(cube, rubik.createCube())
+    printPath(path)
 
-# path = solver.bfs(cube, rubik.createCube())
-path = solver.a_search(cube, rubik.createCube())
-printPath(path)
-# rubik.printCube(cube)
+def init():
+    # create solved cube
+    cube = rubik.createCube()
+    # generate scramble
+    scramble = rubik.generateRandomScramble()
+    print("Scramble:",scramble)
+    # apply scramble
+    cube = rubik.applyScramble(cube, scramble)
+    return cube
+
+if __name__ == '__main__':
+    cube = init()
+    solve(cube)

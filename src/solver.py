@@ -1,6 +1,7 @@
 import rubik
 import heuristic
 from Node import Node
+from time import time
 
 def path(parent, start, end):
     """
@@ -22,19 +23,24 @@ def path(parent, start, end):
 
 def bfs(start, end):
     """
-        Generate minimun solution for given configuration of cube
+        Generate minimun solution for given configuration of cube using Breadth-First-Search
         Parameters:
                 start: Cube to be solved
                 end: Solved cube
+        Returns:
+                Path: List with path to reach solution
     """
     queue = []
     queue.append(start)
     # store the nodes visited and the move appllied to get to node
     parent = {start: None}
 
+    start_time = time()
     while queue:
         node = queue.pop(0)
         if node == end:
+            total_time = time() - start_time
+            print('BFS total time:', total_time)
             return path(parent, start, node)
         # apply every move(U,U',F,F',R,R') to current node of the cube to get the neighbors
         for move in rubik.moveName:
@@ -43,22 +49,29 @@ def bfs(start, end):
             if temp not in parent:
                 parent[temp] = move
                 queue.append(temp)
+    total_time = time() - start_time
+    print('BFS total time:', total_time)
     # No solution found
     return None
 
-
-def calculateDistance(cube, end):
-    count = 0
-    for i in range(rubik.size):
-        if cube[i] != end[i]:
-            count += 1
-    return count
-
 def h(cube):
+    """
+        Heuristic function based on Patter Database.
+        Use database.json file to get distance
+        from current combination to solved state
+    """
     dist = heuristic.get_distances()[str(cube)]
     return dist
 
 def a_search(start, end):
+    """
+        Generate minimun solution for given configuration of cube using A*
+        Parameters:
+                start: Cube to be solved
+                end: Solved cube
+        Returns:
+                Path: List with path to reach solution
+    """
 
     # Create start and end node
     start_node = Node(None, start)
@@ -71,6 +84,7 @@ def a_search(start, end):
     open_list = [start_node]
     closed_list = []
 
+    start_time = time()
     # Loop until you find the end
     while len(open_list) > 0:
 
@@ -88,6 +102,8 @@ def a_search(start, end):
 
         # Found the goal
         if current_node == end_node:
+            total_time = time() - start_time
+            print('A* total time:', total_time)
             path = []
             current = current_node
             while current is not None:
@@ -118,10 +134,11 @@ def a_search(start, end):
                     continue
 
             # Create the f, g, and h values
+            # distance to reach node
             child.g = current_node.g + 1
-            # child.h = ((child.position[0] - end_node.position[0]) ** 2) + ((child.position[1] - end_node.position[1]) ** 2)
-            # child.h = calculateDistance(child.cube, end)
+            # heuristic (how many moves to reach solution)
             child.h = h(child.cube)
+            # distance + heuristic
             child.f = child.g + child.h
 
             # Child is already in the open list
@@ -131,3 +148,5 @@ def a_search(start, end):
 
             # Add the child to the open list
             open_list.append(child)
+    total_time = time() - start_time
+    print('BFS total time:', total_time)
