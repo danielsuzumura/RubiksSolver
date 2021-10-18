@@ -1,4 +1,5 @@
 import rubik
+import heuristic
 from Node import Node
 
 def path(parent, start, end):
@@ -53,11 +54,16 @@ def calculateDistance(cube, end):
             count += 1
     return count
 
+def h(cube):
+    dist = heuristic.get_distances()[str(cube)]
+    return dist
+
 def a_search(start, end):
 
     # Create start and end node
     start_node = Node(None, start)
-    start_node.g = start_node.h = start_node.f = 0
+    start_node.g = start_node.f = 0
+    start_node.h = h(start)
     end_node = Node(None, end)
     end_node.g = end_node.h = end_node.f = 0
 
@@ -115,7 +121,7 @@ def a_search(start, end):
             child.g = current_node.g + 1
             # child.h = ((child.position[0] - end_node.position[0]) ** 2) + ((child.position[1] - end_node.position[1]) ** 2)
             # child.h = calculateDistance(child.cube, end)
-            child.h = 0
+            child.h = h(child.cube)
             child.f = child.g + child.h
 
             # Child is already in the open list
