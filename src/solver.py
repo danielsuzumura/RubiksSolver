@@ -149,4 +149,4 @@ def a_search(start, end):
             # Add the child to the open list
             open_list.append(child)
     total_time = time() - start_time
-    print('BFS total time:', total_time)
+    print('A* total time:', total_time)
