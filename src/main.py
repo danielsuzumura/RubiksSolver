@@ -51,10 +51,13 @@ def solve(cube, method='a_star'):
     if answer == 'y' or answer == 'Y':
         showSolution(cube, path, color=True)
 
-def init(maxScrambles=None):
+
+def init(maxScrambles=None, scrambles=None):
     """
         Generate scrambled cube
-
+        Parameters:
+                maxScrambles: Maximum number of moves in scramble
+                scrambles: Input scramble
         Returns:
                 Scrambled cube
     """
