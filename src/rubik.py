@@ -6,6 +6,9 @@ MAX_RAND = 6
 # total amount of squares in face
 faceSize = 4
 
+# face dimensions
+faceDimension = 2
+
 # total amount of squares in cube
 size = 24
 
@@ -14,6 +17,16 @@ cube = []
 
 # all the colors
 colors = ['y','g','o','b','r','w']
+
+# color mapping
+mapping = {
+    'y': '\x1b[33;103m',
+    'g': '\x1b[38;2;128;128;0;48;2;0;128;0m',
+    'o': '\x1b[38;2;255;140;0;48;2;255;165;0m',
+    'b': '\x1b[94;44m',
+    'r': '\x1b[91;41m',
+    'w': '\x1b[37;107m',
+}
 
 # all the sizes
 sizes = ['Up', 'Front', 'Right', 'Back', 'Left', 'Down']
@@ -48,7 +61,7 @@ def createCube():
         cube.append( colors[int(i/faceSize)])
     return tuple(cube)
 
-def printCube(cube):
+def printCube(cube, color=False):
     """
         Print cube in console
     """
@@ -56,9 +69,39 @@ def printCube(cube):
         print(sizeName)
         for j in range(faceSize):
             if j % 3 == 2:
-                print()
-            print(cube[j + i*faceSize], end = ' ')
-        print()
+                print('' if not color else '\x1b[0m')
+            print(cube[j + i*faceSize] if not color else mapping[cube[j + i*faceSize]], end = ' ')
+        print('' if not color else '\x1b[0m')
+
+def print3DCube(cube, color=False):
+    """
+        Print open 3D cube in console
+    """
+    pattern = '[]'
+    # Print up face
+    print('    ', end='')
+    for j in range(faceSize):
+        if j % 3 == 2:
+            print('' if not color else '\x1b[0m')
+            print('    ', end='')
+        print(cube[j + 0*faceSize] if not color else mapping[cube[j + 0*faceSize]] + pattern, end = '')
+    print('' if not color else '\x1b[0m')
+
+    # Print left, front right, and back faces
+    for i in range(faceDimension):
+        for j in [4, 1, 2, 3]:
+            for k in range(faceDimension):
+                print(cube[k + i*faceDimension + j*faceSize] if not color else mapping[cube[k + i*faceDimension + j*faceSize]] + pattern, end = '')
+        print('' if not color else '\x1b[0m')
+
+    # Print down face
+    print('    ', end='')
+    for j in range(faceSize):
+        if j % 3 == 2:
+            print('' if not color else '\x1b[0m')
+            print('    ', end='')
+        print(cube[j + 5*faceSize] if not color else mapping[cube[j + 5*faceSize]] + pattern, end = '')
+    print('' if not color else '\x1b[0m')
 
 def applyMove(cube, move):
     """
