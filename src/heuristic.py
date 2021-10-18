@@ -49,7 +49,11 @@ def get_distances():
     if distances == {}:
         try:
             with open('database.json', 'r') as f:
+                print('\nLoading database...')
+                start_time = time()
                 distances = json.loads(f.read())
+                total_time = time() - start_time
+                print(f'Database loaded in {total_time:.5f}s\n')
         except:
             generate_positions()
     return distances
