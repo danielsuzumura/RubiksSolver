@@ -138,9 +138,8 @@ def a_search(start, end):
         for child in children:
 
             # Child is on the closed list
-            for closed_child in closed_list:
-                if child == closed_child:
-                    continue
+            if child in closed_list:
+                continue
 
             # distance to reach node
             child.g = current_node.g + 1
@@ -150,11 +149,14 @@ def a_search(start, end):
             child.f = child.g + child.h
 
             # Child is already in the open list
+            flag = True
             for open_node in open_list:
                 if child == open_node and child.g > open_node.g:
-                    continue
+                    flag = False
+                    break
 
             # Add the child to the open list
-            open_list.append(child)
+            if flag:
+                open_list.append(child)
     total_time = time() - start_time
     print('A* total time:', total_time)
