@@ -2,6 +2,8 @@
 
 2x2x2 Rubik's cube solver using BFS and A*
 
+## Instructions
+
 1º Download repository
 
 2º Unzip the file "RubiksSolver-main.zip"
